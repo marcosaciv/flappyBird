@@ -12,8 +12,9 @@ public class Bird : MonoBehaviour {
     public float vel =0;
     public float velM = 0;
 
-    public bool dead = false;
+    public static bool dead = false;
     private Animator animator;
+    
 
     void Awake()
     {
@@ -51,6 +52,8 @@ public class Bird : MonoBehaviour {
         {
             PlayerPrefs.SetInt("maxpoints", (int) GameManager.Points);
         }
+
+        
 
 
     }
