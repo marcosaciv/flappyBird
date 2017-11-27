@@ -14,12 +14,38 @@ public class Bird : MonoBehaviour {
 
     public static bool dead = false;
     private Animator animator;
-    
+    public AudioSource audioSource;
+    public AudioClip point;
+    public AudioClip hit;
+    public AudioClip jump;
+    private bool clip;
+
 
     void Awake()
     {
         rb = this.GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        clip = true;
+
+        switch (PlayerPrefs.GetString("skin"))
+        {
+            case "defaultSkin":
+                animator.SetInteger("skin", 1);
+                break;
+            case "dogeSkin":
+                animator.SetInteger("skin", 5);
+                break;
+            case "mexicanSkin":
+                animator.SetInteger("skin", 4);
+                break;
+            case "zombieSkin":
+                animator.SetInteger("skin", 3);
+                break;
+            case "vampireSkin":
+                animator.SetInteger("skin", 2);
+                break;
+
+        }
     }
 
 
@@ -31,6 +57,7 @@ public class Bird : MonoBehaviour {
             rb.velocity = Vector2.zero;
             rb.AddForce(new Vector2(0, force));
             animator.SetBool("click", true);
+            audioSource.PlayOneShot(jump);
 
         }
 
@@ -52,7 +79,11 @@ public class Bird : MonoBehaviour {
         {
             PlayerPrefs.SetInt("maxpoints", (int) GameManager.Points);
         }
-
+        if (clip)
+        {
+            audioSource.PlayOneShot(hit);
+            clip = false;
+        }
         
 
 
@@ -61,6 +92,8 @@ public class Bird : MonoBehaviour {
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameManager.Points++;
+        audioSource.PlayOneShot(point);
+        
     }
 
 }

@@ -102,6 +102,14 @@ public class GameManager : MonoBehaviour {
             }
             
         }
+        if (Bird.dead && aux && !touched)
+        {
+            if (/*Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary || */Input.GetMouseButtonUp(0))
+            {
+
+                SceneManager.LoadScene("Game");
+            }
+        }
         if (/*Input.GetTouch(0).phase == TouchPhase.Ended ||*/ Input.GetMouseButtonUp(0) && touched)
         {
             touched = false;
