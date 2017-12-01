@@ -78,6 +78,7 @@ public class Bird : MonoBehaviour {
         if(GameManager.Points > PlayerPrefs.GetInt("maxpoints"))
         {
             PlayerPrefs.SetInt("maxpoints", (int) GameManager.Points);
+            StartCoroutine(sendScore(PlayerPrefs.GetString("nick"),(int)GameManager.Points));
         }
         if (clip)
         {
@@ -93,7 +94,19 @@ public class Bird : MonoBehaviour {
     {
         GameManager.Points++;
         audioSource.PlayOneShot(point);
+        Destroy(collision.gameObject.GetComponent<BoxCollider2D>());
         
     }
 
+    string sendScoreUrl= "http://localhost/flappyBird/setScore.php";
+
+    IEnumerator sendScore(string nick, int points)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("nickPost", nick);
+        form.AddField("puntuacionPost", points);
+
+        WWW www = new WWW(sendScoreUrl, form);
+        yield return www;//para esperar a que se descarguen los datos de la pagina
+    }
 }

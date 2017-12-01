@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 98ba69fc1ba639a46bc7a09ee3d49323
-timeCreated: 1511807515
+timeCreated: 1512155384
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -31,6 +31,7 @@ TextureImporter:
     21300048: fbirdsprite_23
     21300050: fbirdsprite_24
     21300052: fbirdsprite_25
+    21300054: fbirdsprite_26
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -485,6 +486,20 @@ TextureImporter:
         y: 138
         width: 80
         height: 28
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: fbirdsprite_26
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 216
+        width: 81
+        height: 29
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

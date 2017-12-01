@@ -14,3 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Skins.unity
     guid: 68689d84a652a8c4c99bbbcff1f8522a
+  - enabled: 1
+    path: Assets/Scenes/Score.unity
+    guid: 1dcb49a2b91c16f4fb1ceb75beb9a5d4

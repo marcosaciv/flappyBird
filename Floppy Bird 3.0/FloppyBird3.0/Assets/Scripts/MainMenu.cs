@@ -2,18 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    public GameObject back;
+    public GameObject play;
+    public GameObject score;
+    public GameObject skins;
 
+    public GameObject panel;
     Camera camara;
     private bool touched = false;
     private Transform buttonTouched;
 
+    private string url = "http://localhost/flappyBird/checkConnection.php";
+
 
     void Start()
     {
+        if (System.String.IsNullOrEmpty(PlayerPrefs.GetString("nick")))
+        {
+            StartCoroutine(checkConnection(url));
+
+        }
         camara = GameObject.FindObjectOfType<Camera>();
+        
     }
 
    
@@ -48,13 +62,15 @@ public class MainMenu : MonoBehaviour
                 }
                 else if (hit.transform.tag == "Score")
                 {
-                    if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
+                    if (/*Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary*/Input.GetMouseButtonDown(0))
                     {
                         hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
+                        buttonTouched = hit.transform;
+                        touched = true;
                     }
-                    else if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                    else if (/*Input.GetTouch(0).phase == TouchPhase.Ended*/Input.GetMouseButtonUp(0))
                     {
-                        hit.transform.position = new Vector2(hit.transform.position.x, -1.02f);
+                        SceneManager.LoadScene("Score");
                         //StartCoroutine(CambiarNivel("Score"));
                     }
                 }
@@ -89,6 +105,46 @@ public class MainMenu : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Escape))
         {
             Application.Quit();
+        }
+    }
+
+    public void Submit(Text nick)
+    {
+        StartCoroutine(createUser(nick.text));
+    }
+
+    string createUserUrl = "http://localhost/flappyBird/createUser.php";
+
+    IEnumerator createUser(string nick)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("nickPost", nick);
+
+        WWW www = new WWW(createUserUrl, form);
+        yield return www;//para esperar a que se descarguen los datos de la pagina
+        if(www.text != "0")
+        {
+            back.SetActive(true);
+            panel.SetActive(false);
+            skins.SetActive(true);
+            play.SetActive(true);
+            score.SetActive(true);
+            PlayerPrefs.SetString("nick",nick);
+        }
+    }
+
+    IEnumerator checkConnection(string url)
+    {
+        WWW www = new WWW(url);
+
+        yield return www;
+        if (www.isDone && www.bytesDownloaded>0)
+        {
+            back.SetActive(false);
+            panel.SetActive(true);
+            skins.SetActive(false);
+            play.SetActive(false);
+            score.SetActive(false);
         }
     }
 }

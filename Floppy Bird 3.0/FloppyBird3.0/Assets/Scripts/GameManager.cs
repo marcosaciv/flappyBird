@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour {
 
     private bool aux = false;
     private bool touched = false;
+    private float deadTime;
     private Transform buttonTouched;
 
     // Use this for initialization
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour {
         board.SetActive(false);
         back.SetActive(false);
         Bird.dead = false;
+        points = 0;
         ground.speed = 0;
         digits = digitos;
         digit0 = GameObject.Find("digit0").GetComponent<SpriteRenderer>();
@@ -59,11 +61,12 @@ public class GameManager : MonoBehaviour {
             spawn.Begin();
             ground.speed = 1;
         }
-        if (Bird.dead && !aux)
+        if (Bird.dead && !aux )
         {
             board.SetActive(true);
             back.SetActive(true);
             aux = true;
+            deadTime = Time.time;
 
             int d2 = (int)points / 100;
             int d1 = (int)(points % 100) / 10;
@@ -102,7 +105,7 @@ public class GameManager : MonoBehaviour {
             }
             
         }
-        if (Bird.dead && aux && !touched)
+        if (Bird.dead && aux && !touched && (Time.time-deadTime)>1f)
         {
             if (/*Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary || */Input.GetMouseButtonUp(0))
             {
