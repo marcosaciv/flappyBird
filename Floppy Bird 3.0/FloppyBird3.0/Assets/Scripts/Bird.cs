@@ -51,21 +51,25 @@ public class Bird : MonoBehaviour {
 
     void FixedUpdate()
     {
-        animator.SetBool("click", false);
-        if (Input.GetMouseButtonDown(0) && !dead)
+        if (Input.touchCount > 0)
         {
-            rb.velocity = Vector2.zero;
-            rb.AddForce(new Vector2(0, force));
-            animator.SetBool("click", true);
-            audioSource.PlayOneShot(jump);
+            animator.SetBool("click", false);
+            if (Input.GetTouch(0).phase == TouchPhase.Began && !dead)
+            {
+                rb.velocity = Vector2.zero;
+                rb.AddForce(new Vector2(0, force));
+                animator.SetBool("click", true);
+                audioSource.PlayOneShot(jump);
+
+            }
+
+            this.transform.rotation = Quaternion.Euler(
+                this.transform.rotation.x,
+                this.transform.rotation.y,
+                Mathf.Lerp(-45, 45, (rb.velocity.y / 3.8f + 1f) / 2)
+            );
 
         }
-
-        this.transform.rotation = Quaternion.Euler(
-            this.transform.rotation.x,
-            this.transform.rotation.y,
-            Mathf.Lerp(-45, 45, (rb.velocity.y / 3.8f + 1f) / 2)
-        );
 
     }
 
@@ -98,7 +102,7 @@ public class Bird : MonoBehaviour {
         
     }
 
-    string sendScoreUrl= "http://localhost/flappyBird/setScore.php";
+    string sendScoreUrl= "http://www.cgfcarlos.gdk.mx/flappy_bird/setScore.php";
 
     IEnumerator sendScore(string nick, int points)
     {

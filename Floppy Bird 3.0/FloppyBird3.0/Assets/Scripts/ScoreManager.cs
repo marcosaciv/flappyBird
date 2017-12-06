@@ -14,31 +14,36 @@ public class ScoreManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
-
-        if (hit.collider != null && hit.transform.tag == "Back")
+        if(Input.touchCount > 0)
         {
-            if (/*Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary || */Input.GetMouseButtonDown(0))
+            //Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+
+            if (hit.collider != null && hit.transform.tag == "Back")
             {
-                hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
-                touched = true;
-                buttonTouched = hit.transform;
-            }
+                if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
+                {
+                    hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
+                    touched = true;
+                    buttonTouched = hit.transform;
+                }
 
-            else if (/*Input.GetTouch(0).phase == TouchPhase.Ended ||*/ Input.GetMouseButtonUp(0))
+                else if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                {
+                    SceneManager.LoadScene("Menu");
+                }
+
+            }
+            if (Input.GetTouch(0).phase == TouchPhase.Ended && touched)
             {
-                SceneManager.LoadScene("Menu");
+                touched = false;
+                buttonTouched.position = new Vector2(buttonTouched.position.x, buttonTouched.position.y + 0.062f);
+                buttonTouched = null;
+
             }
-
         }
-        if (/*Input.GetTouch(0).phase == TouchPhase.Ended ||*/ Input.GetMouseButtonUp(0) && touched)
-        {
-            touched = false;
-            buttonTouched.position = new Vector2(buttonTouched.position.x, buttonTouched.position.y + 0.062f);
-            buttonTouched = null;
-
-        }
+        
     }
 
     public class Jugador : IComparable<Jugador>
@@ -70,12 +75,11 @@ public class ScoreManager : MonoBehaviour {
     }
 
     public string[] jugadores;
-    string crearJugadorURL = "http://www.floppy.site88.net/InsertarDatos.php";
 
     IEnumerator Start()
     {
 
-        WWW jugadoresData = new WWW("http://localhost/flappyBird/");
+        WWW jugadoresData = new WWW("http://www.cgfcarlos.gdk.mx/flappy_bird/");
         yield return jugadoresData;//para esperar a que se descarguen los datos de la pagina
         string jugadoresString = jugadoresData.text;
         // print(jugadoresString);
@@ -131,14 +135,4 @@ public class ScoreManager : MonoBehaviour {
         }
         return value;
     }
-
-    public void createJugador(string nick, int puntuacion)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("nickPost", nick);
-        form.AddField("puntuacionPost", puntuacion);
-
-        WWW www = new WWW(crearJugadorURL, form);
-    }
-
 }

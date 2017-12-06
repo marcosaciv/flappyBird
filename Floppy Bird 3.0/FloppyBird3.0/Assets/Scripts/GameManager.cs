@@ -51,16 +51,55 @@ public class GameManager : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && !started)
+        if (Input.touchCount > 0)
         {
-            started = true;
-            birdDefault.SetActive(false);
-            bird.gameObject.SetActive(true);
-            bird.rb.bodyType = RigidbodyType2D.Dynamic;
-            bird.rb.AddForce(new Vector2(0, bird.force));
-            spawn.Begin();
-            ground.speed = 1;
+            if (Input.GetTouch(0).phase == TouchPhase.Began && !started)
+            {
+                started = true;
+                birdDefault.SetActive(false);
+                bird.gameObject.SetActive(true);
+                bird.rb.bodyType = RigidbodyType2D.Dynamic;
+                bird.rb.AddForce(new Vector2(0, bird.force));
+                spawn.Begin();
+                ground.speed = 1;
+            }
+
+            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
+
+            if (hit.collider != null && hit.transform.tag == "Back")
+            {
+                if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
+                {
+                    hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
+                    touched = true;
+                    buttonTouched = hit.transform;
+                }
+
+                else if (Input.GetTouch(0).phase == TouchPhase.Ended)
+                {
+                    SceneManager.LoadScene("Menu");
+                }
+
+            }
+            if (Bird.dead && aux && !touched && (Time.time - deadTime) > 1f)
+            {
+                if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
+                {
+
+                    SceneManager.LoadScene("Game");
+                }
+            }
+            if (Input.GetTouch(0).phase == TouchPhase.Ended && touched)
+            {
+                touched = false;
+                buttonTouched.position = new Vector2(buttonTouched.position.x, buttonTouched.position.y + 0.062f);
+                buttonTouched = null;
+
+            }
+
         }
+        
         if (Bird.dead && !aux )
         {
             board.SetActive(true);
@@ -87,39 +126,7 @@ public class GameManager : MonoBehaviour {
 
         }
 
-        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
-
-        if (hit.collider != null && hit.transform.tag == "Back")
-        {
-            if (/*Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary || */Input.GetMouseButtonDown(0))
-            {
-                hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
-                touched = true;
-                buttonTouched = hit.transform;
-            }
-
-            else if (/*Input.GetTouch(0).phase == TouchPhase.Ended ||*/ Input.GetMouseButtonUp(0))
-            {
-                SceneManager.LoadScene("Menu");
-            }
-            
-        }
-        if (Bird.dead && aux && !touched && (Time.time-deadTime)>1f)
-        {
-            if (/*Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary || */Input.GetMouseButtonUp(0))
-            {
-
-                SceneManager.LoadScene("Game");
-            }
-        }
-        if (/*Input.GetTouch(0).phase == TouchPhase.Ended ||*/ Input.GetMouseButtonUp(0) && touched)
-        {
-            touched = false;
-            buttonTouched.position = new Vector2(buttonTouched.position.x, buttonTouched.position.y + 0.062f);
-            buttonTouched = null;
-            
-        }
+        
     }
 
     public static float Points {

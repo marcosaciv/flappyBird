@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
     private bool touched = false;
     private Transform buttonTouched;
 
-    private string url = "http://localhost/flappyBird/checkConnection.php";
+    private string url = "http://www.cgfcarlos.gdk.mx/flappy_bird/checkConnection.php";
 
 
     void Start()
@@ -34,41 +34,41 @@ public class MainMenu : MonoBehaviour
 
     void Update()
     {
-        if (/*Input.touchCount > 0*/true)
+        if (Input.touchCount > 0)
         {
-            if(Input.GetMouseButtonUp(0) && touched)
+            if(Input.GetTouch(0).phase == TouchPhase.Ended && touched)
             {
                 buttonTouched.transform.position = new Vector2(buttonTouched.transform.position.x, buttonTouched.transform.position.y + 0.062f);
                 touched = false;
                 buttonTouched = null;
             }
-            //Vector3 pos = camara.ScreenToWorldPoint(Input.GetTouch(0).position);
-            Vector3 pos = camara.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 pos = camara.ScreenToWorldPoint(Input.GetTouch(0).position);
+            // Vector3 pos = camara.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
             if (hit.collider != null)
             {
                 if (hit.transform.tag == "Start")
                 {
-                    if (/*Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary || */Input.GetMouseButtonDown(0))
+                    if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
                     {
                         hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
                         buttonTouched = hit.transform;
                         touched = true;
                     }
-                    else if (/*Input.GetTouch(0).phase == TouchPhase.Ended ||*/ Input.GetMouseButtonUp(0))
+                    else if (Input.GetTouch(0).phase == TouchPhase.Ended)
                     {
                         SceneManager.LoadScene("Game");
                     }
                 }
                 else if (hit.transform.tag == "Score")
                 {
-                    if (/*Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary*/Input.GetMouseButtonDown(0))
+                    if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
                     {
                         hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
                         buttonTouched = hit.transform;
                         touched = true;
                     }
-                    else if (/*Input.GetTouch(0).phase == TouchPhase.Ended*/Input.GetMouseButtonUp(0))
+                    else if (Input.GetTouch(0).phase == TouchPhase.Ended)
                     {
                         SceneManager.LoadScene("Score");
                         //StartCoroutine(CambiarNivel("Score"));
@@ -76,13 +76,13 @@ public class MainMenu : MonoBehaviour
                 }
                 else if (hit.transform.tag == "Skins")
                 {
-                    if (/*Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary*/Input.GetMouseButtonDown(0))
+                    if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
                     {
                         hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
                         buttonTouched = hit.transform;
                         touched = true;
                     }
-                    else if (/*Input.GetTouch(0).phase == TouchPhase.Ended */ Input.GetMouseButtonUp(0))
+                    else if (Input.GetTouch(0).phase == TouchPhase.Ended)
                     {   
                         SceneManager.LoadScene("Skins");
                         //StartCoroutine(CambiarNivel("Skins"));
@@ -113,7 +113,7 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(createUser(nick.text));
     }
 
-    string createUserUrl = "http://localhost/flappyBird/createUser.php";
+    string createUserUrl = "http://www.cgfcarlos.gdk.mx/flappy_bird/createUser.php";
 
     IEnumerator createUser(string nick)
     {

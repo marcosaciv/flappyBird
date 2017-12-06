@@ -44,25 +44,25 @@ public class Skins : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 pos = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
         RaycastHit2D hit = Physics2D.Raycast(pos, Vector2.zero);
 
         if (hit.collider != null && hit.transform.tag == "Back")
         {
-            if (/*Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary || */Input.GetMouseButtonDown(0))
+            if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
             {
                 hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
                 touched = true;
                 buttonTouched = hit.transform;
             }
 
-            else if (/*Input.GetTouch(0).phase == TouchPhase.Ended ||*/ Input.GetMouseButtonUp(0))
+            else if (Input.GetTouch(0).phase == TouchPhase.Ended)
             {
                 SceneManager.LoadScene("Menu");
             }
 
         }
-        if (/*Input.GetTouch(0).phase == TouchPhase.Ended ||*/ Input.GetMouseButtonUp(0) && touched)
+        if (Input.GetTouch(0).phase == TouchPhase.Ended && touched)
         {
             touched = false;
             buttonTouched.position = new Vector2(buttonTouched.position.x, buttonTouched.position.y + 0.062f);
