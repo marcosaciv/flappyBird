@@ -49,7 +49,7 @@ public class MainMenu : MonoBehaviour
             {
                 if (hit.transform.tag == "Start")
                 {
-                    if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
+                    if (Input.GetTouch(0).phase == TouchPhase.Began)
                     {
                         hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
                         buttonTouched = hit.transform;
@@ -62,7 +62,7 @@ public class MainMenu : MonoBehaviour
                 }
                 else if (hit.transform.tag == "Score")
                 {
-                    if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
+                    if (Input.GetTouch(0).phase == TouchPhase.Began)
                     {
                         hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
                         buttonTouched = hit.transform;
@@ -76,7 +76,7 @@ public class MainMenu : MonoBehaviour
                 }
                 else if (hit.transform.tag == "Skins")
                 {
-                    if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
+                    if (Input.GetTouch(0).phase == TouchPhase.Began)
                     {
                         hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
                         buttonTouched = hit.transform;

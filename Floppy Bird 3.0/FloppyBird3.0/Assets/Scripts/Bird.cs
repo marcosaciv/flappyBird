@@ -63,13 +63,13 @@ public class Bird : MonoBehaviour {
 
             }
 
-            this.transform.rotation = Quaternion.Euler(
-                this.transform.rotation.x,
-                this.transform.rotation.y,
-                Mathf.Lerp(-45, 45, (rb.velocity.y / 3.8f + 1f) / 2)
-            );
-
         }
+
+        this.transform.rotation = Quaternion.Euler(
+            this.transform.rotation.x,
+            this.transform.rotation.y,
+            Mathf.Lerp(-45, 45, (rb.velocity.y / 3.8f + 1f) / 2)
+        );
 
     }
 

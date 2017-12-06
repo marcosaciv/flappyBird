@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour {
 
             if (hit.collider != null && hit.transform.tag == "Back")
             {
-                if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
+                if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
                     hit.transform.position = new Vector2(hit.transform.position.x, hit.transform.position.y - 0.062f);
                     touched = true;
@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour {
             }
             if (Bird.dead && aux && !touched && (Time.time - deadTime) > 1f)
             {
-                if (Input.GetTouch(0).phase == TouchPhase.Began || Input.GetTouch(0).phase == TouchPhase.Stationary)
+                if (Input.GetTouch(0).phase == TouchPhase.Began)
                 {
 
                     SceneManager.LoadScene("Game");
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour {
 
         }
         
-        if (Bird.dead && !aux )
+        if (Bird.dead && !aux)
         {
             board.SetActive(true);
             back.SetActive(true);
