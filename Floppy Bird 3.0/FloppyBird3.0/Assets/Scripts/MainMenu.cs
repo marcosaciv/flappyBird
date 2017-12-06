@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,12 +17,14 @@ public class MainMenu : MonoBehaviour
     Camera camara;
     private bool touched = false;
     private Transform buttonTouched;
+    public Text errorMsg;
 
-    private string url = "http://www.cgfcarlos.gdk.mx/flappy_bird/checkConnection.php";
+    private string url = "http://cgfcarlos.gdk.mx/flappy_bird/checkConnection.php";
 
 
     void Start()
     {
+        PlayerPrefs.DeleteKey("nick");
         if (System.String.IsNullOrEmpty(PlayerPrefs.GetString("nick")))
         {
             StartCoroutine(checkConnection(url));
@@ -113,7 +117,7 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(createUser(nick.text));
     }
 
-    string createUserUrl = "http://www.cgfcarlos.gdk.mx/flappy_bird/createUser.php";
+    string createUserUrl = "http://cgfcarlos.gdk.mx/flappy_bird/createUser.php/id?=";
 
     IEnumerator createUser(string nick)
     {
@@ -122,6 +126,8 @@ public class MainMenu : MonoBehaviour
 
         WWW www = new WWW(createUserUrl, form);
         yield return www;//para esperar a que se descarguen los datos de la pagina
+        errorMsg.text = www.text;
+
         if(www.text != "0")
         {
             back.SetActive(true);

@@ -102,7 +102,7 @@ public class Bird : MonoBehaviour {
         
     }
 
-    string sendScoreUrl= "http://www.cgfcarlos.gdk.mx/flappy_bird/setScore.php";
+    string sendScoreUrl= "http://cgfcarlos.gdk.mx/flappy_bird/setScore.php";
 
     IEnumerator sendScore(string nick, int points)
     {
