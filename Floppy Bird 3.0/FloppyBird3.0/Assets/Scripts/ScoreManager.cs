@@ -79,7 +79,7 @@ public class ScoreManager : MonoBehaviour {
     IEnumerator Start()
     {
 
-        WWW jugadoresData = new WWW("http://www.cgfcarlos.gdk.mx/flappy_bird/");
+        WWW jugadoresData = new WWW("http://www.cgfcarlos.gdk.mx/flappy_bird/index.php");
         yield return jugadoresData;//para esperar a que se descarguen los datos de la pagina
         string jugadoresString = jugadoresData.text;
         // print(jugadoresString);
