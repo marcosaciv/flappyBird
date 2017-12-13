@@ -79,10 +79,10 @@ public class ScoreManager : MonoBehaviour {
     IEnumerator Start()
     {
 
-        WWW jugadoresData = new WWW("http://cgfcarlos.gdk.mx/flappy_bird/index.php");
+        WWW jugadoresData = new WWW("https://floppybird.000webhostapp.com/files/index.php");
         yield return jugadoresData;//para esperar a que se descarguen los datos de la pagina
         string jugadoresString = jugadoresData.text;
-        // print(jugadoresString);
+         print(jugadoresString);
         jugadores = jugadoresString.Split(';');
 
         //ArrayList de jugadores

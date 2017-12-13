@@ -19,12 +19,12 @@ public class MainMenu : MonoBehaviour
     private Transform buttonTouched;
     public Text errorMsg;
 
-    private string url = "http://cgfcarlos.gdk.mx/flappy_bird/checkConnection.php";
+    private string url = "https://floppybird.000webhostapp.com/files/checkConnection.php";
 
 
     void Start()
     {
-        PlayerPrefs.DeleteKey("nick");
+        //PlayerPrefs.DeleteKey("nick");
         if (System.String.IsNullOrEmpty(PlayerPrefs.GetString("nick")))
         {
             StartCoroutine(checkConnection(url));
@@ -117,7 +117,7 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(createUser(nick.text));
     }
 
-    string createUserUrl = "http://cgfcarlos.gdk.mx/flappy_bird/createUser.php/id?=";
+    string createUserUrl = "https://floppybird.000webhostapp.com/files/createUser.php/id?=";
 
     IEnumerator createUser(string nick)
     {
@@ -126,8 +126,8 @@ public class MainMenu : MonoBehaviour
 
         WWW www = new WWW(createUserUrl, form);
         yield return www;//para esperar a que se descarguen los datos de la pagina
-        errorMsg.text = www.text;
-
+        //errorMsg.text = www.text;
+        //print(www.text.ToString());
         if(www.text != "0")
         {
             back.SetActive(true);
@@ -144,6 +144,7 @@ public class MainMenu : MonoBehaviour
         WWW www = new WWW(url);
 
         yield return www;
+        //print(www.text.ToString());
         if (www.isDone && www.bytesDownloaded>0)
         {
             back.SetActive(false);

@@ -102,7 +102,7 @@ public class Bird : MonoBehaviour {
         
     }
 
-    string sendScoreUrl= "http://cgfcarlos.gdk.mx/flappy_bird/setScore.php";
+    string sendScoreUrl= "https://floppybird.000webhostapp.com/files/setScore.php";
 
     IEnumerator sendScore(string nick, int points)
     {
@@ -112,5 +112,6 @@ public class Bird : MonoBehaviour {
 
         WWW www = new WWW(sendScoreUrl, form);
         yield return www;//para esperar a que se descarguen los datos de la pagina
+        print(www.text.ToString());
     }
 }
